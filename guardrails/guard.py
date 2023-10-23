@@ -295,7 +295,7 @@ class Guard:
     ) -> Tuple[str, Dict]:
         instructions = instructions or self.instructions
         prompt = prompt or self.prompt
-        msg_history = msg_history or []
+        
         if prompt is None:
             if not len(msg_history):
                 raise RuntimeError(
@@ -355,7 +355,7 @@ class Guard:
         """
         instructions = instructions or self.instructions
         prompt = prompt or self.prompt
-        msg_history = msg_history or []
+        
         if prompt is None:
             if not len(msg_history):
                 raise RuntimeError(
