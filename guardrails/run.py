@@ -176,9 +176,9 @@ class Runner:
         output_schema: Schema,
         output: str = None,
     ):
+        """Run a full step."""
         guard_logs = GuardLogs()
         self.guard_history.push(guard_logs)
-        """Run a full step."""
         with start_action(
             action_type="step",
             index=index,
@@ -528,9 +528,9 @@ class AsyncRunner(Runner):
         output_schema: Schema,
         output: str = None,
     ):
+        """Run a full step."""
         guard_logs = GuardLogs()
         self.guard_history.push(guard_logs)
-        """Run a full step."""
         with start_action(
             action_type="step",
             index=index,
