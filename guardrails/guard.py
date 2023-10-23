@@ -53,11 +53,6 @@ class Guard:
         self.base_model = base_model
 
     @property
-    def input_schema(self) -> Schema:
-        """Return the input schema."""
-        return self.rail.input_schema
-
-    @property
     def output_schema(self) -> Schema:
         """Return the output schema."""
         return self.rail.output_schema
@@ -295,7 +290,7 @@ class Guard:
     ) -> Tuple[str, Dict]:
         instructions = instructions or self.instructions
         prompt = prompt or self.prompt
-        
+
         if prompt is None:
             if not len(msg_history):
                 raise RuntimeError(
@@ -309,7 +304,6 @@ class Guard:
                 prompt=prompt,
                 msg_history=msg_history,
                 api=get_llm_ask(llm_api, *args, **kwargs),
-                input_schema=self.input_schema,
                 output_schema=self.output_schema,
                 num_reasks=num_reasks,
                 metadata=metadata,
@@ -355,7 +349,7 @@ class Guard:
         """
         instructions = instructions or self.instructions
         prompt = prompt or self.prompt
-        
+
         if prompt is None:
             if not len(msg_history):
                 raise RuntimeError(
@@ -368,7 +362,6 @@ class Guard:
                 prompt=prompt,
                 msg_history=msg_history,
                 api=get_async_llm_ask(llm_api, *args, **kwargs),
-                input_schema=self.input_schema,
                 output_schema=self.output_schema,
                 num_reasks=num_reasks,
                 metadata=metadata,
@@ -472,7 +465,6 @@ class Guard:
                 prompt=kwargs.pop("prompt", None),
                 msg_history=kwargs.pop("msg_history", None),
                 api=get_llm_ask(llm_api, *args, **kwargs) if llm_api else None,
-                input_schema=None,
                 output_schema=self.output_schema,
                 num_reasks=num_reasks,
                 metadata=metadata,
@@ -513,7 +505,6 @@ class Guard:
                 prompt=kwargs.pop("prompt", None),
                 msg_history=kwargs.pop("msg_history", None),
                 api=get_async_llm_ask(llm_api, *args, **kwargs) if llm_api else None,
-                input_schema=None,
                 output_schema=self.output_schema,
                 num_reasks=num_reasks,
                 metadata=metadata,

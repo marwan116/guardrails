@@ -35,7 +35,6 @@ class Runner:
     Args:
         prompt: The prompt to use.
         api: The LLM API to call, which should return a string.
-        input_schema: The input schema to use for validation.
         output_schema: The output schema to use for validation.
         num_reasks: The maximum number of times to reask the LLM in case of
             validation failure, defaults to 0.
@@ -48,7 +47,6 @@ class Runner:
     prompt: Prompt
     msg_history: Optional[List[Dict]]
     api: PromptCallableBase
-    input_schema: Schema
     output_schema: Schema
     guard_state: GuardState
     num_reasks: int = 0
@@ -124,16 +122,14 @@ class Runner:
             instructions=self.instructions,
             prompt=self.prompt,
             api=self.api,
-            input_schema=self.input_schema,
             output_schema=self.output_schema,
             num_reasks=self.num_reasks,
             metadata=self.metadata,
         ):
-            instructions, prompt, msg_history, input_schema, output_schema = (
+            instructions, prompt, msg_history, output_schema = (
                 self.instructions,
                 self.prompt,
                 self.msg_history,
-                self.input_schema,
                 self.output_schema,
             )
             for index in range(self.num_reasks + 1):
@@ -145,7 +141,6 @@ class Runner:
                     prompt=prompt,
                     msg_history=msg_history,
                     prompt_params=prompt_params,
-                    input_schema=input_schema,
                     output_schema=output_schema,
                     output=self.output if index == 0 else None,
                 )
@@ -172,7 +167,6 @@ class Runner:
         prompt: Optional[Prompt],
         msg_history: Optional[List[Dict]],
         prompt_params: Dict,
-        input_schema: Schema,
         output_schema: Schema,
         output: str = None,
     ):
@@ -185,7 +179,6 @@ class Runner:
             instructions=instructions,
             prompt=prompt,
             prompt_params=prompt_params,
-            input_schema=input_schema,
             output_schema=output_schema,
         ):
             # Prepare: run pre-processing, and input validation.
@@ -201,7 +194,6 @@ class Runner:
                     msg_history,
                     prompt_params,
                     api,
-                    input_schema,
                     output_schema,
                 )
 
@@ -257,7 +249,6 @@ class Runner:
         msg_history: Optional[List[Dict]],
         prompt_params: Dict,
         api: Union[PromptCallableBase, AsyncPromptCallableBase],
-        input_schema: Schema,
         output_schema: Schema,
     ) -> Tuple[Instructions, Prompt, List[Dict]]:
         """Prepare by running pre-processing and input validation.
@@ -477,16 +468,14 @@ class AsyncRunner(Runner):
             instructions=self.instructions,
             prompt=self.prompt,
             api=self.api,
-            input_schema=self.input_schema,
             output_schema=self.output_schema,
             num_reasks=self.num_reasks,
             metadata=self.metadata,
         ):
-            instructions, prompt, msg_history, input_schema, output_schema = (
+            instructions, prompt, msg_history, output_schema = (
                 self.instructions,
                 self.prompt,
                 self.msg_history,
-                self.input_schema,
                 self.output_schema,
             )
             for index in range(self.num_reasks + 1):
@@ -498,7 +487,6 @@ class AsyncRunner(Runner):
                     prompt=prompt,
                     msg_history=msg_history,
                     prompt_params=prompt_params,
-                    input_schema=input_schema,
                     output_schema=output_schema,
                     output=self.output if index == 0 else None,
                 )
@@ -524,7 +512,6 @@ class AsyncRunner(Runner):
         prompt: Prompt,
         msg_history: Optional[List[Dict]],
         prompt_params: Dict,
-        input_schema: Schema,
         output_schema: Schema,
         output: str = None,
     ):
@@ -537,7 +524,6 @@ class AsyncRunner(Runner):
             instructions=instructions,
             prompt=prompt,
             prompt_params=prompt_params,
-            input_schema=input_schema,
             output_schema=output_schema,
         ):
             # Prepare: run pre-processing, and input validation.
@@ -549,7 +535,6 @@ class AsyncRunner(Runner):
                     msg_history,
                     prompt_params,
                     api,
-                    input_schema,
                     output_schema,
                 )
             else:

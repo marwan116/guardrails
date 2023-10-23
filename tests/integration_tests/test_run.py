@@ -36,7 +36,6 @@ def runner_instance(is_sync: bool):
             prompt=PROMPT,
             msg_history=None,
             api=OpenAICallable,
-            input_schema=None,
             output_schema=OUTPUT_SCHEMA,
             guard_state={},
         )
@@ -46,7 +45,6 @@ def runner_instance(is_sync: bool):
             prompt=PROMPT,
             msg_history=None,
             api=AsyncOpenAICallable,
-            input_schema=None,
             output_schema=OUTPUT_SCHEMA,
             guard_state={},
         )
@@ -128,7 +126,6 @@ async def test_sync_async_step_equivalence(mocker):
         PROMPT,
         None,
         {},
-        None,
         OUTPUT_SCHEMA,
         OUTPUT,
     )

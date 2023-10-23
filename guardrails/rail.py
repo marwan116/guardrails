@@ -32,8 +32,6 @@ class Rail:
         3. `<prompt>`, which contains the prompt to be passed to the LLM
         4. `<instructions>`, which contains the instructions to be passed to the LLM
     """
-
-    input_schema: Optional[Schema] = (None,)
     output_schema: Optional[Schema] = (None,)
     instructions: Optional[Instructions] = (None,)
     prompt: Optional[Prompt] = (None,)
@@ -75,14 +73,6 @@ class Rail:
                 "Change the opening <rail> element to: <rail version='0.1'>."
             )
 
-        # Load <input /> schema
-        raw_input_schema = xml.find("input")
-        if raw_input_schema is None:
-            # No input schema, so do no input checking.
-            input_schema = Schema()
-        else:
-            input_schema = cls.load_input_schema(raw_input_schema)
-
         # Load <output /> schema
         raw_output_schema = xml.find("output")
         if raw_output_schema is None:
@@ -117,7 +107,6 @@ class Rail:
             prompt = cls.load_prompt(prompt, output_schema)
 
         return cls(
-            input_schema=input_schema,
             output_schema=output_schema,
             instructions=instructions,
             prompt=prompt,
@@ -148,12 +137,6 @@ class Rail:
     def load_schema(root: ET._Element) -> Schema:
         """Given the RAIL <input> or <output> element, create a Schema
         object."""
-        return Schema(root)
-
-    @staticmethod
-    def load_input_schema(root: ET._Element) -> Schema:
-        """Given the RAIL <input> element, create a Schema object."""
-        # Recast the schema as an InputSchema.
         return Schema(root)
 
     @staticmethod
